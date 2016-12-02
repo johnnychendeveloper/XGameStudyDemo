@@ -42,11 +42,11 @@
     self.connectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.connectBtn setTitle:@"connect to server" forState:UIControlStateNormal];
     self.connectBtn.backgroundColor = [UIColor grayColor];
-    [self.view addSubview:self.connectBtn];
-    [self.connectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    //[self.view addSubview:self.connectBtn];
+    /*[self.connectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.centerY.mas_equalTo(self.view.mas_centerY);
-    }];
+    }];*/
     [self.connectBtn addTarget:self action:@selector(connectToServer:) forControlEvents:UIControlEventTouchUpInside];
     
     //建立连接
