@@ -1,0 +1,1556 @@
+package protocol;
+
+//######################################
+// 消息格式定义
+// T:4个字节，包括 [协议类型|协议号|协议版本号|Flags|
+// L:4个字节，记录V的长度
+// S:4个字节，记录包的序列号，目前只有推送包有序列号
+// V:Protobuf封装
+
+enum PType {
+	PEncrypt = 0xFF;
+	PLogin = 0x01;
+	PUser = 0x02;
+	PUserMsg = 0x03;
+	PGroup = 0x04;
+	PGroupMsg = 0x05;
+	PPush = 0x06;
+	PGroupApp = 0x07;
+	PReport = 0x08;
+}
+
+enum SPEncrypt {
+	PKeyExchangeReq = 0x00;
+	PKeyExchangeRes = 0x01;
+}
+
+enum SPLogin {
+	PUserLoginReq = 0x00;
+	PUserLoginRes = 0x01;
+	PUserActivateReq = 0x02;
+	PUserActivateRes = 0x03;
+	PUserHeartBeat = 0x04;
+	PAccountBindReq = 0x06;
+	PAccountBindRes = 0x07;
+	PAccountBindValidReq = 0x08;
+	PAccountBindValidRes = 0x09;
+	PSessionResumeReq = 0x10;
+	PSessionResumeRes = 0x11;
+	PSessionSuspendReq = 0x12;
+	PUserPasswordModifyReq = 0x20;
+	PUserPasswordModifyRes = 0x21;
+	PUptokenReq = 0x30;
+	PUptokenRes = 0x31;
+}
+
+enum SPUser {
+	PUserInfoReq = 0x00;
+	PUserInfoRes = 0x01;
+	PUserInfoModifyReq = 0x02;
+	PUserInfoModifyRes = 0x03;
+	PContactListReq = 0x04;
+	PContactListRes = 0x05;
+	PContactSearchReq = 0x10;
+	PContactSearchRes = 0x11;
+	PContactAddReq = 0x12;
+	PContactAddRes = 0x13;
+	PContactRemoveReq = 0x14;
+	PContactRemoveRes = 0x15;
+	PContactBlacklistReq = 0x20;
+	PContactBlacklistRes = 0x21;
+	PContactWhitelistReq = 0x22;
+	PContactWhitelistRes = 0x23;
+}
+
+enum SPUserMsg {
+	PUserMsgListReq = 0x00;
+	PUserMsgListRes = 0x01;
+	PUserMsgSendReq = 0x10;
+	PUserMsgSendRes = 0x11;
+}
+
+enum SPGroup {
+	PGroupCreateReq = 0x00;
+	PGroupCreateRes = 0x01;
+	PGroupApplyReq = 0x02;
+	PGroupApplyRes = 0x03;
+	PGroupApplyDisposeReq = 0x04;
+	PGroupApplyDisposeRes = 0x05;
+	PGroupQuitReq = 0x06;
+	PGroupQuitRes = 0x07;
+	PGroupInfoReq = 0x08;
+	PGroupInfoRes = 0x09;
+	PGroupInfoModifyReq = 0x0A;
+	PGroupInfoModifyRes = 0x0B;
+	PGroupSearchReq = 0x0C;
+	PGroupSearchRes = 0x0D;
+	PGroupSearchKeywordsReq = 0x0E;
+	PGroupSearchKeywordsRes = 0x0F;
+	PGroupListReq = 0x10;
+	PGroupListRes = 0x11;
+	PGroupManagerMsgReq = 0x1A;
+	PGroupManagerMsgRes = 0x1B;
+	PGroupDestroyReq = 0x1C;
+	PGroupDestroyRes = 0x1D;
+	PGroupMemberListReq = 0x20;
+	PGroupMemberListRes = 0x21;
+	PGroupMemberReq = 0x22;
+	PGroupMemberRes = 0x23;
+	PGroupMemberModifyReq = 0x24;
+	PGroupMemberModifyRes = 0x25;
+	PGroupCategoryCreateReq = 0x30;
+	PGroupCategoryCreateRes = 0x31;
+	PGroupCategoryModifyReq = 0x32;
+	PGroupCategoryModifyRes = 0x33;
+	PGroupCategoryListReq = 0x34;
+	PGroupCategoryListRes = 0x35;
+	PTopicListReq = 0x40;
+	PTopicListRes = 0x41;
+}
+
+enum SPGroupMsg {
+	PGroupMsgListReq = 0x00;
+	PGroupMsgListRes = 0x01;
+	PGroupMsgSendReq = 0x10;
+	PGroupMsgSendRes = 0x11;
+	PGroupMsgPushSubReq = 0x20;
+	PGroupMsgPushSubRes = 0x21;
+}
+
+enum SPGroupApp {
+	PGroupAppSendReq = 0x00;
+	PGroupAppSendRes = 0x01;
+	PGroupAppListReq = 0x02;
+	PGroupAppListRes = 0x03;
+	PGroupMsgAppReq = 0x04;
+	PGroupMsgAppRes = 0x05;
+}
+
+enum SPPush {
+	PPushPack = 0x00;
+}
+
+enum SPReport {
+	PReportViolatorReq = 0x01;
+	PReportViolatorRes = 0x02;
+}
+
+//######################################
+// 连接建立：
+// 客户端通过TCP连接到服务器，请求一个通信密钥
+// 客户端 -> 服务器
+// T=PEncrypt|KeyExchangeReq|Flags1|Flags2|
+// L=...
+// V=KeyExchangeReq
+// 
+// 服务器生成一个RC4密钥，用RAS私钥加密后向客户端返回，并设置此链接的RC4加密密钥
+// 服务器 -> 客户端
+// T=PEncrypt|KeyExchangeRes|Flags1|Flags2|
+// L=...
+// V=RSA_PRIVATE(KeyExchangeRes)
+
+enum EncryptType {
+	EncryptTypeNone = 0;
+	EncryptTypeRC4 = 1;
+}
+
+message KeyExchangeReq {
+	required int32 random = 1;
+	optional string rsaPubKeyN = 2;
+	optional string rsaPubKeyE = 3;
+} 
+
+message KeyExchangeRes {
+	required int32 random = 1;
+	required string key = 2;
+	required EncryptType enctype = 3;
+}
+
+//**************************************
+// **除了密钥交换协议，其它所有协议的数据包都用RC4在底层加解密
+//**************************************
+//
+// 一般结果返回消息包(Result)
+
+enum ErrCode {
+	Success = 0x00;
+	ServerError = 0x01;
+	DatabaseError = 0x02;
+	UnkownRequest = 0x03;
+	PasswordInvalid = 0x04;
+	
+	UserNotExist = 0x10;
+	UserMsgSendFailedInBlacklist = 0x11;
+	UserNickConlict = 0x12;
+	
+	GroupNotExist = 0x20;
+	GroupNotPrivilege = 0x21;
+	GroupOthersDisposed = 0x22;
+	GroupOwner = 0x23;
+	GroupNotOwner = 0x24;
+	GroupNotMember = 0x26;
+	GroupMemberAlready = 0x25;
+	GroupMemberNotFound = 0x27;
+	GroupMemberModifyRolerYourself = 0x28;
+	GroupMemberNotPrivilegeToModify = 0x29;
+	
+	GroupAppNotPrivilege = 0x2A;
+	GroupAppParamInvalid = 0x2B;
+	GroupAppWriteConflict = 0x2C;
+	
+	GroupPasswordRequired = 0x30;
+	GroupPasswordError = 0x31;
+	
+	MobilePhoneInvalid = 0x40;
+	MobilePhoneBoundWithOtherUser = 0x41;
+	MobilePhoneBindSendSmsError = 0x42;
+	MobilePhoneBindIdentifyingCodeError = 0x43;
+	MobilePhoneBindIdentifyingCodeExpired = 0x44;
+	YYBindTokenInvalid = 0x45;
+	YYBindTokenVerifyError = 0x46;
+	YYBoundWithOtherUser = 0x47;
+	YYBoundWithMe = 0x48;
+	YYBoundWithoutAnybody = 0x49;
+}
+
+message Result {
+	required bool success = 1;
+	optional ErrCode code = 2;
+	optional string remarks = 3;
+	optional uint64 uid = 4;
+	optional uint64 gid = 5;
+	optional uint64 revision = 6;
+}
+
+//######################################
+// 登录
+// 客户端 -> 服务器
+// T=PLogin|PUserLoginReq|Flags1|Flags2|
+// L=...
+// V=UserLoginReq
+//
+// 服务器 -> 客户端
+// T=PLogin|PUserLoginRes|Flags1|Flags2|
+// L=...
+// V=UserLoginRes
+//
+// Uid无密码登录:
+// macid,uid是必填
+//
+// Cookie登录:
+// macid,cookie是必填
+//
+// Uid密码登录:
+// password,macid,uid是必填
+//
+// 手机密码登录:
+// 登录类型为AccountType_MobilePhone,password,macid,name(手机号)是必填
+//
+// 手机验证码登录：
+// 激活协议包如果包含了Mobilephone
+// 如果手机号已绑定，向这个手机号发送验证码
+// 如果手机号没绑定，用MAC地址激活，并向手机号发送验证码
+// 登录类型为AccountType_MobilePhone,uid,password(新密码),macid,name(手机号),identifyingCode(手机验证码)是必填
+// 登录以后，用户密码被设置为这里指定的密码
+
+enum AccountType {
+	AccountType_UidOrCookie = 0;
+	AccountType_YY = 1;
+	AccountType_MobilePhone = 2;
+	AccountType_Tencent = 3;
+	AccountType_Sina = 4;
+}
+
+enum ProtoVersion {
+	ProtoVersion_Current = 2;
+}
+
+message UserLoginReq {
+	optional uint64 uid = 1;
+	optional string password = 2;
+	required string macid = 3;
+	optional string cookie = 4;
+	optional string name = 5;
+	optional string identifyingCode = 6;
+	optional AccountType accountType = 10;
+	optional string devtype = 20; //设备类型
+	optional string osinfo = 21; //操作系统
+	optional ProtoVersion protoVersion = 30;
+	optional string iosAppPushToken = 40;
+	optional string ipaddress = 50;//内部使用，客户端不用赋值
+}
+
+message UserLoginRes {
+	enum UserLoginResult {
+		LoginSuccessed = 0;
+		LoginFailedNotExist = 1;
+		LoginFailedPassword = 2;
+		LoginFailedServer = 3;
+		LoginFailedIdentifyCode = 4;
+		LoginFailedMacid = 5;
+		LoginFailedOldVersion = 10;
+		LoginFailedInvalidPrivilege = 11;
+	}
+	required UserLoginResult result = 1;
+	required string cookie = 2;
+	optional string remarks = 3;
+	optional bool newsession = 4;
+	optional uint64 uid = 5;
+	optional UserInfo userinfo = 6;
+}
+
+//######################################
+// 激活帐号
+// 客户端 -> 服务器
+// T=PLogin|PUserActivateReq|Flags1|Flags2|
+// L=...
+// V=UserActivateReq
+//
+// 服务器 -> 客户端
+// T=PLogin|PUserActivateRes|Flags1|Flags2|
+// L=...
+// V=UserActivateRes
+
+message UserActivateReq {
+	required string macid = 1;
+	optional string mobilephone = 2;
+}
+
+message UserActivateRes {
+	required uint64 uid = 1;
+	optional string remarks = 2;
+}
+
+//######################################
+// 绑定帐号
+// 客户端 -> 服务器
+// T=PLogin|PAccountBindReq|Flags1|Flags2|
+// L=...
+// V=AccountBindReq
+//
+// 服务器 -> 客户端
+// T=PLogin|PAccountBindRes|Flags1|Flags2|
+// L=...
+// V=Result
+//
+// 得到验证码后
+// T=PLogin|PAccountBindValidReq|Flags1|Flags2|
+// L=...
+// V=AccountBindValidReq
+//
+// 服务器 -> 客户端
+// T=PLogin|PAccountBindValidRes|Flags1|Flags2|
+// L=...
+// V=PasswordModifyRes
+
+message AccountBindReq {
+	required AccountType accountType = 1;
+	required string name = 3;
+}
+
+message AccountBindValidReq {
+	required AccountType accountType = 1;
+	required string name = 2;
+	required string identifyingCode = 3;
+	required string password = 4;
+}
+
+message PasswordModifyRes {
+	required bool success = 1;
+	optional string remarks = 2;
+	optional string cookie = 3;
+	optional ErrCode code = 4;
+}
+
+//######################################
+// 心跳包
+// 客户端 -> 服务器
+// 服务器 -> 客户端
+// T=PLogin|PUserHeartBeat|Flags1|Flags2|
+// L=...
+// V=UserHeartBeat
+//
+
+message UserHeartBeat {
+	required uint32 flags = 1;
+}
+
+//######################################
+// 恢复会话请求
+// 客户端 -> 服务器
+// T=PLogin|PSessionResumeReq|Flags1|Flags2|
+// L=...	
+// V=SessionResumeReq
+// 服务器 -> 客户端
+// T=PLogin|PSessionResumeRes|Flags1|Flags2|
+// L=...
+// V=Result
+message SessionResumeReq {
+	required string cookie = 2;
+}
+
+//######################################
+// 会话挂起请求
+// 客户端 -> 服务器
+// T=PLogin|PSessionSuspendReq|Flags1|Flags2|
+// L=...	
+// V=SessionSuspendReq
+
+message SessionSuspendReq {
+	optional bool suspend = 1;
+}
+
+//######################################
+// 修改密码
+// 客户端 -> 服务器
+// 服务器 -> 客户端
+// T=PLogin|PUserPasswordModifyReq|Flags1|Flags2|
+// L=...
+// V=UserPasswordModifyReq
+//
+// 服务器 -> 客户端
+// T=PLogin|PUserPasswordModifyRes|Flags1|Flags2|
+// L=...
+// V=PasswordModifyRes
+
+message UserPasswordModifyReq {
+	// 这个字段表示客户端本地存储的会话消息的流水号
+	required string newpassword = 1;
+	optional string oldpassword = 2;
+}
+
+//######################################
+// 上传授权token
+// 客户端 -> 服务器
+// 服务器 -> 客户端
+// T=PLogin|PUptokenReq|Flags1|Flags2|
+// L=...	
+// V=UptokenReq
+//
+
+message UptokenReq {
+	required string cookie = 1;
+	repeated string buckets = 2;
+}
+
+message Uptoken {
+	required string token = 1;
+	required string bucket = 2;
+}
+
+message UptokenRes {
+	repeated Uptoken tokens = 1;
+}
+
+//######################################
+// 查看个人资料：
+//
+// 客户端->服务器
+// T=PUser|PUserInfoReq|Flags1|Flags2|
+// L=...
+// V=UserInfoReq
+//
+// 服务器 ->客户端
+// T=PUser|PUserInfoRes|Flags1|Flags2|
+// L=...
+// V=UserInfoRes
+//
+// 修改个人资料：
+// 客户端->服务器
+// T=PUser|PUserInfoModifyReq|Flags1|Flags2|
+// L=...
+// V=UserInfo
+//
+// 服务器 ->客户端
+// T=PUser|UserInfoModifyRes|Flags1|Flags2|
+// L=...
+// V=Result
+
+message UserInfoReq {
+	required uint64 uid = 1;
+	optional string nick = 2;
+}
+
+enum SexType {
+	SexType_Unknow = 0;
+	SexType_Female = 1;
+	SexType_Male = 2;
+}
+
+enum RoleType {
+	RoleType_Normal = 0;
+	RoleType_Admin = 1;
+}
+
+message UserInfo {
+	required uint64 uid = 1;
+	optional string nick = 2;
+	optional string signature = 3;
+	optional string logourl = 4;
+	optional uint32 logoindex = 5;
+	optional SexType sex = 6;
+	optional string birthday = 7;
+	optional string location = 8;
+	optional string address = 9;
+	optional string intro = 10;
+	optional string extattr1 = 12; //扩展属性，JSON，会触发通知
+	optional string extattr2 = 13; //扩展属性，JSON，只是存储
+	optional uint32 score = 14;
+	optional int64 createtime = 15;
+	optional RoleType role = 16;
+}
+
+message UserInfoRes {
+	required Result result = 1;
+	required UserInfo userinfo = 2;
+}
+
+//######################################
+// 同步联系人：
+//
+// 客户端->服务器
+// T=PUser|PContactListReq|Flags1|Flags2|
+// L=...
+// V=ContactListReq
+//
+// 服务器 -> 客户端（版本号为0：全量拉取）
+// T=PUser|PContactListRes|Flags1|Flags2|
+// L=...
+// V=ContactListRes
+//
+// 服务器 -> 客户端（推送）
+// MsgPushType = PPushContactUpdate
+
+message ContactInfo {
+	required UserInfo user = 1;
+	optional string remark = 2;
+}
+
+message ContactListReq {
+	required uint64 revision = 1;
+}
+
+message ContactIncrement {
+	enum ContactIncrementType {
+		Contact_Add = 1;
+		Contact_Remove = 2;
+		Contact_Update = 3;
+	}
+	required ContactIncrementType type = 1;
+	required ContactInfo contact = 2;
+}
+
+message ContactListRes {
+	required uint64 revision = 1;
+	repeated ContactInfo contacts = 2;
+	repeated ContactIncrement increment = 3;
+}
+
+//######################################
+// 搜索联系人：
+//
+// 客户端->服务器
+// T=PUser|PContactSearchReq|Flags1|Flags2|
+// L=...
+// V=ContactSearchReq
+//
+// 服务器 ->客户端
+// T=PUser|PContactSearchRes|Flags1|Flags2|
+// L=...
+// V=ContactSearchRes
+
+message ContactSearchReq {
+	required string keyword = 1;
+	required uint32 index = 2;
+	optional uint32 fetchs = 3;
+}
+
+message ContactSearchRes {
+	required string keyword = 1;
+	required uint32 totalresults = 2;
+	required uint32 index = 3;
+	repeated UserInfo contacts = 4;
+}
+
+//######################################
+// 同步好友消息：
+//
+// 客户端->服务器
+// T=PUserMsg|PUserMsgListReq|Flags1|Flags2|
+// L=...
+// V=UserMsgListReq
+//
+// 服务器 -> 客户端（返回最近N条和总数）
+// T=PUserMsg|PUserMsgListRes|Flags1|Flags2|
+// L=...
+// V=UserMsgListRes
+//
+// 服务器 -> 客户端（消息推送）
+// MsgPushType = PPushContactMsgUpdate
+
+message UserMsgReq { 
+	required uint64 uid = 1;
+	required uint64 revision = 2;
+	optional uint32 fetchs = 3; //这个参数如果不为0，从指定版本读取fetchs个结果返回
+	optional uint32 topn = 4; //这个参数如果不为0且fetchs为0，读取topn个最新的结果返回
+}
+
+message UserMsgListReq {
+	repeated UserMsgReq users = 1;
+}
+
+message UserMsg {
+	optional uint64 revision = 1;
+	required string message = 2;
+	optional int64 timestamp = 3;
+	required uint64 uid = 4;
+	enum UserMsgType {
+		UserMsgContactReceive = 0; //接收好友消息,接收者
+		UserMsgContactSend = 1; //发送好友消息，发送者
+		UserMsgBroadcast = 2; //接收系统广播
+		UserMsgGroup = 3; //群操作文本通知，比如被提升或取消管理员、被踢出群、被同意加入群等
+	}
+	optional UserMsgType msgtype = 5;
+	optional UserInfo userinfo = 6;
+}
+
+message UserMsgList {
+	required uint64 revision = 1; //最新的版本
+	required uint64 uid = 2;
+	repeated UserMsg msgs = 3;
+}
+
+message UserMsgListRes {
+	required Result result = 1;
+	repeated UserMsgList msglists = 2;
+}
+
+//######################################
+// 发送用户消息：
+//
+// 客户端->服务器
+// T=PUserMsg|PUserMsgSendReq|Flags1|Flags2|
+// L=...
+// V=UserMsg
+//
+// 服务器 -> 客户端
+// T=PUserMsg|PUserMsgSendRes|Flags1|Flags2|
+// L=...
+// V=Result
+
+message GroupId {
+	required uint64 gid = 1;
+}
+
+message GroupIds {
+	repeated uint64 gid = 1;
+}
+
+enum GroupType {
+	GroupTypeNormal = 0; //普通群组，需要申请进入，有群成员，有管理员
+	GroupTypePublish = 1; //公众群，可以随意进去、订阅，但只能管理员发言
+	GroupTypeTopic = 2; //主题，顶级主题可以随意进入、订阅、发言，群组里面的主题权限控制依赖父亲
+	GroupTypeChatRoom = 3; //聊天室，可以随意进入、订阅、发言
+}
+
+enum GroupState {
+	GroupStateOK = 1;
+	GroupStateDestroy = 2;
+	GroupStateFreeze = 3;
+}
+
+enum GroupInfoFlags {
+	FlagsPresetTopic = 1;
+}
+
+message GroupInfo {
+	required uint64 gid = 1;
+	optional string name = 2;
+	optional string intro = 3;
+	optional string logourl = 4;
+	optional int64 createtime = 5;
+	optional GroupMemberRoler myroler = 6;
+	optional GroupType gtype = 7;
+	optional uint64 parentgid = 8;
+	optional uint32 categoryid = 9;
+	optional GroupMemberRoler sayroler = 10;
+	optional GroupState state = 11;
+	optional uint64 ownerid = 12;
+	repeated string tags = 13;
+	optional int64 storetime = 14;
+	optional string password = 15;
+	optional uint32 flags = 16;
+	optional string app = 17;
+}
+
+//######################################
+// 创建群组：
+//
+// 客户端->服务器
+// T=PGroup|PGroupCreateReq|Flags1|Flags2|
+// L=...
+// V=GroupInfo
+//
+// 服务器 ->客户端
+// T=PT_Group|PGroupCreateRes|Flags1|Flags2|
+// L=...
+// V=GroupCreateRes
+
+message GroupCreateRes {
+	required bool success = 1;
+	optional GroupInfo group = 2;
+	optional string remarks = 3;
+}
+
+//######################################
+// 销毁群组：
+//
+// 客户端->服务器
+// T=PGroup|PGroupDestroyReq|Flags1|Flags2|
+// L=...
+// V=GroupInfo
+//
+// 服务器 ->客户端
+// T=PT_Group|PGroupDestroyRes|Flags1|Flags2|
+// L=...
+// V=Result
+
+//######################################
+// 申请加入群组：
+//
+// 客户端->服务器
+// T=PGroup|PGroupApplyReq|Flags1|Flags2|
+// L=...
+// V=GroupApplyReq
+//
+// 服务器 ->客户端
+// T=PGroupGroup|PGroupApplyRes|Flags1|Flags2|
+// L=...
+// V=GroupApplyRes
+//
+// 服务器 ->客户端 (消息推送)
+// MsgPushType = PPushGroupManagerMsgUpdate
+
+message GroupApplyReq {
+	required uint64 gid = 1;
+	optional string remarks = 2;
+}
+
+enum GroupApplyResult {
+	ApplyApprovaling = 0;
+	ApplyPassed = 1;
+	ApplyReject = 2;
+	ApplyErrorGid = 3;
+	ApplyErrorServer = 4;
+}
+
+message GroupApplyRes {
+	required uint64 gid = 1;
+	required Result result = 2;
+}
+
+//######################################
+// 批准加入群组：
+//
+// 客户端->服务器
+// T=PGroup|PGroupApplyDisposeReq|Flags1|Flags2|
+// L=...
+// V=GroupApplyDisposeReq
+//
+// 服务器 ->客户端
+// T=PGroup|PGroupApplyDisposeRes|Flags1|Flags2|
+// L=...
+// V=Result
+//
+// 服务器 ->客户端 (消息推送)
+// MsgPushType = PPushGroupMemberUpdate
+//
+// 服务器 ->客户端 (消息推送)
+// MsgPushType = PPushGroupManagerMsgUpdate
+
+message GroupApplyDisposeReq {
+	required uint64 gid = 1;
+	required uint64 revision = 2;
+	required GroupApplyResult result = 3;
+}
+
+//######################################
+// 退出群组：
+//
+// 客户端->服务器
+// T=PGroup|PGroupQuitReq|Flags1|Flags2|
+// L=...
+// V=GroupQuitReq
+//
+// 服务器 ->客户端
+// T=PGroup|PGroupQuitRes|Flags1|Flags2|
+// L=...
+// V=Result
+
+message GroupQuitReq {
+	required uint64 gid = 1;
+}
+
+//######################################
+// 查看群组信息：
+//
+// 客户端->服务器
+// T=PGroup|PGroupInfoReq|Flags1|Flags2|
+// L=...
+// V=GroupInfoReq
+//
+// 服务器 ->客户端
+// T=PGroup|PGroupInfoRes|Flags1|Flags2|
+// L=...
+// V=GroupInfoRes
+
+message GroupInfoReq {
+	required uint64 gid = 1;
+}
+
+message GroupInfoRes {
+	required Result result = 1;
+	required GroupInfo groupinfo = 2;
+}
+
+//######################################
+// 修改群组信息：
+//
+// 客户端->服务器
+// T=PGroup|PGroupInfoModifyReq|Flags1|Flags2|
+// L=...
+// V=GroupInfo
+//
+// 服务器 ->客户端
+// T=PGroup|PGroupInfoModifyRes|Flags1|Flags2|
+// L=...
+// V=Result
+
+//######################################
+// 搜索群组：
+//
+// 客户端->服务器
+// T=PGroup|PTopicListReq|Flags1|Flags2|
+// L=...
+// V=TopicListReq
+//
+// 服务器 ->客户端
+// T=PGroup|PTopicListRes|Flags1|Flags2|
+// L=...
+// V=TopicListRes
+
+message TopicListReq {
+	required uint64 uid = 1;
+	optional uint32 index = 2; //从第几个结果开始
+	optional uint32 fetchs = 3; //取多少个结果
+}
+
+message TopicListRes {
+	required uint64 uid = 1;
+	required uint32 totalresults = 2;
+	required uint32 index = 3;
+	repeated GroupInfo groups = 4;
+}
+
+//######################################
+// 搜索群组：
+//
+// 客户端->服务器
+// T=PGroup|PGroupSearchReq|Flags1|Flags2|
+// L=...
+// V=GroupSearchReq
+//
+// 服务器 ->客户端
+// T=PGroup|PGroupSearchRes|Flags1|Flags2|
+// L=...
+// V=GroupSearchRes
+
+enum GroupSortBy {
+	GroupSortByReplytime = 0;
+	GroupSortByHot = 1;
+	GroupSortByCreatetime = 2; //排创建时间
+	GroupSortBySmartHot = 3; //智能排序
+}
+message GroupSearchReq {
+	optional string keyword = 1;
+	optional uint32 index = 2; //从第几个结果开始
+	optional uint32 fetchs = 3; //取多少个结果
+	optional uint64 parentgid = 4; //搜索
+	optional uint32 categoryid = 5; //搜索分类
+	optional GroupType grouptype = 6; //群类型
+	optional GroupSortBy sortby = 10; //排序方式
+}
+
+message GroupSearchRes {
+	optional string keyword = 1;
+	required uint32 totalresults = 2;
+	required uint32 index = 3;
+	repeated GroupInfo groups = 4;
+	optional uint64 parentgid = 5;
+	optional uint32 categoryid = 6;
+	optional GroupType grouptype = 7;
+	optional GroupSortBy sortby = 10;
+	repeated string relatedKeywords = 20;
+}
+
+//######################################
+// 搜索热点关键词：
+
+message GroupSearchKeywordsReq {
+	optional string keyword = 1;
+}
+
+message GroupSearchKeywordsRes {
+	repeated string keywords = 1;
+}
+
+//######################################
+// 同步管理员消息：
+//
+// 客户端->服务器
+// T=PGroup|PGroupManagerMsgReq|Flags1|Flags2|
+// L=...
+// V=GroupManagerMsgReq
+//
+// 服务器 -> 客户端（返回最近N条和总数）
+// T=PGroup|GroupManagerMsgRes|Flags1|Flags2|
+// L=...
+// V=GroupManagerMsgRes
+//
+//
+// 群管理员消息推送：
+// 服务器 -> 客户端（推送）
+// MsgPushType = PPushGroupManagerMsgUpdate
+
+message GroupManagerMsgReq {
+	required uint64 revision = 1;
+	required uint64 gid = 2;
+	optional uint32 fetchs = 3; //这个参数如果不为0，从指定版本读取fetchs个结果返回
+}
+
+message GroupManagerMsg {
+	required uint64 revision = 1;
+	optional int64 timestamp = 2;
+	required UserInfo user = 3;
+	enum GroupManagerOpType {
+		Apply = 0x01;
+	}
+	required GroupManagerOpType optype = 4;
+	optional string remark = 5;
+	optional uint64 opuid = 6;
+	optional uint32 opresult = 7;
+}
+
+message GroupManagerMsgRes {
+	required uint64 revision = 1;
+	required uint64 gid = 2;
+	repeated GroupManagerMsg messages = 3;
+}
+
+//######################################
+// 同步群组：
+//
+// 客户端->服务器
+// T=PGroup|PGroupListReq|Flags1|Flags2|
+// L=...
+// V=GroupListReq
+//
+// 服务器 -> 客户端（版本号为0：全量拉取）
+// T=PT_Group|PGroupListRes|Flags1|Flags2|
+// L=...
+// V=GroupListRes
+//
+// 群组操作推送：
+// 服务器 -> 客户端（推送）
+// MsgPushType = PPushGroupListUpdate
+
+message GroupListReq {
+	required uint64 revision = 1;
+}
+
+message GroupListIncrement {
+	required uint64 revision = 1;
+	enum GroupListIncrementType {
+		GroupCreate = 1; //创建群成功
+		GroupApplyPassed = 2; //通过申请
+		GroupDestroy = 3; //群被解散
+		GroupKick = 4; //被踢出来
+		GroupQuit = 5; //退出群
+		GroupRolerUpdate = 6; //角色变化
+		GroupJoined = 7; //加入公众群/订阅成功
+	}
+	required GroupListIncrementType type = 2;
+	required GroupInfo group = 3;
+}
+
+message GroupListRes {
+	required uint64 revision = 1;
+	repeated GroupInfo groups = 2;//如果此项不为空，删除客户端Cache并从这里开始版本同步
+	repeated GroupListIncrement increment = 3;
+}
+
+//######################################
+// 同步群组成员列表：
+//
+// 客户端->服务器
+// T=PGroup|PGroupMemberListReq|Flags1|Flags2|
+// L=...
+// V=GroupMemberListReq
+//
+// 服务器 -> 客户端（版本号为0：全量拉取）
+// T=PGroup|PGroupMemberListRes|Flags1|Flags2|
+// L=...
+// V=GroupMemberListRes
+//
+// 群组成员操作推送：
+// 服务器 -> 客户端（推送）
+// MsgPushType = PPushGroupMemberUpdate
+
+enum GroupMemberRoler {
+	GroupMemberRoler_Owner = 99;
+	GroupMemberRoler_Manager = 50;
+	GroupMemberRoler_Member = 20;
+	GroupMemberRoler_Subscriber = 15;
+	GroupMemberRoler_Guest = 10;
+	GroupMemberRoler_None = 0;
+}
+
+enum GroupMemberState {
+	GroupMemberStateNone = 0;
+	GroupMemberStateActive = 1;
+	GroupMemberStateDestroy = 3;
+	GroupMemberStateKick = 4;
+	GroupMemberStateQuit = 5;
+}
+
+message GroupMember {
+	required UserInfo user = 1;
+	optional GroupMemberRoler roler = 2;
+	optional string cardname = 3;
+	optional GroupMemberState state = 4;
+	optional uint32 score = 5;
+}
+
+message GroupMemberListReq {
+	required uint64 gid = 1;
+	required uint64 revision = 2;
+}
+
+message GroupMemberIncrement {
+	required uint64 revision = 1;
+	enum GroupMemberIncrementType {
+		GroupMemberAdd = 1;
+		GroupMemberUpdate = 2;
+		GroupMemberDestroy = 3;
+		GroupMemberKick = 4;
+		GroupMemberQuit = 5;
+	}
+	required GroupMemberIncrementType type = 2;
+	required GroupMember member = 3;
+	optional string remakrs = 4;
+}
+	
+message GroupMemberListRes {
+	required uint64 revision = 1;
+	required uint64 gid = 2;
+	repeated GroupMember members = 3;
+	repeated GroupMemberIncrement increment = 4;
+}
+
+//######################################
+// 群组成员属性查询：
+//
+// 客户端->服务器
+// T=PGroup|PGroupMemberReq|Flags1|Flags2|
+// L=...
+// V=GroupMemberReq
+//
+// 服务器 -> 客户端
+// T=PGroup|PGroupMemberRes|Flags1|Flags2|
+// L=...
+// V=GroupMemberRes
+
+message GroupMemberReq {
+	required uint64 gid = 1;
+	required uint64 uid = 2;
+}
+
+message GroupMemberRes {
+	required uint64 gid = 1;
+	required Result result = 2;
+	optional GroupMember member = 3;
+}
+
+//######################################
+// 群组成员属性修改：
+//
+// 客户端->服务器
+// T=PGroup|PGroupMemberModifyReq|Flags1|Flags2|
+// L=...
+// V=GroupMemberModifyReq
+//
+// 服务器 -> 客户端
+// T=PGroup|PGroupMemberModifyRes|Flags1|Flags2|
+// L=...
+// V=Result
+
+message GroupMemberModifyReq {
+	required uint64 gid = 1;
+	required GroupMember member = 2;
+}
+
+//######################################
+// 同步群消息：
+//
+// 客户端->服务器
+// T=PGroupMsg|PGroupMsgListReq|Flags1|Flags2|
+// L=...
+// V=GroupMsgListReq
+//
+// 服务器 -> 客户端（返回最近N条和总数）
+// T=PGroupMsg|PGroupMsgListRes|Flags1|Flags2|
+// L=...
+// V=GroupMsgListRes
+//
+// 服务器 -> 客户端（消息推送）
+// MsgPushType = PPushGroupMsgUpdate
+
+message GroupMsgReq {
+	required uint64 gid = 1;
+	required uint64 revision = 2;
+	optional uint32 fetchs = 3; //这个参数如果不为0，从指定版本读取fetchs个结果返回
+	optional uint32 topn = 4; //这个参数如果不为0且fetchs为0，读取topn个最新的结果返回
+	optional string password = 5; //群密码
+}
+
+message GroupMsgListReq {
+	repeated GroupMsgReq groups = 1;
+}
+
+message GroupMsg {
+	required uint64 revision = 1;
+	required string message = 2;
+	optional int64 timestamp = 3;
+	enum GroupMsgType {
+		GroupMsgNormal = 0; //普通群消息
+		GroupMsgBroadcast = 1; //群消息广播
+		GroupDestroy = 2; //群被解散广播
+		GroupInfoUpdate = 3; //群更新广播
+		GroupTopicCreate = 4; //发起主题
+	}
+	optional GroupMsgType msgtype = 5;
+	optional GroupMember groupmember = 6;
+	optional string app = 7;
+	//GroupMsg.App说明:JSON
+	//{
+	//	Revision: 1234,
+	//  Consent: [1,2,3],
+	//	Dissent: [4,5],
+	//	Comment: [
+	//	  { Msg:'XXXXXXXXXXXX',
+	//		Ts:'2010-01-01 00:00:00',
+	//		Uid:10000
+	//	  }
+	//	]
+	//}
+	optional int64 storetime = 8;
+	optional string extfield = 9; //扩展字段，客户端存储私有信息
+}
+
+message GroupMsgList {
+	required uint64 revision = 1; //最新的版本
+	required uint64 gid = 2;
+	repeated GroupMsg msgs = 3;
+	optional uint64 parentgid = 4;
+	optional uint64 apprevision = 5; //最新的评论版本号
+	optional ErrCode errcode = 6; //错误代码
+}
+
+message GroupMsgListRes {
+	required Result result = 1;
+	repeated GroupMsgList msglists = 2;
+}
+
+//######################################
+// 发送群消息：
+//
+// 客户端->服务器
+// T=PGroupMsg|PGroupMsgSendReq|Flags1|Flags2|
+// L=...
+// V=GroupMsgSendReq
+//
+// 服务器 -> 客户端
+// T=PGroupMsg|PGroupMsgSendRes|Flags1|Flags2|
+// L=...
+// V=Result
+
+message GroupMsgSendReq {
+	required uint64 gid = 1;
+	required GroupMsg msg = 2;
+}
+
+//######################################
+// 消息推送格式：
+//
+// 服务器->客户端
+// T=PPush|PPushPack|Flags1|Flags2|
+// L=...
+// V=MsgPush
+
+enum MsgPushType {
+	PPushContactUpdate = 0x01;
+	PPushContactMsgUpdate = 0x02;
+	PPushGroupListUpdate = 0x04;
+	PPushGroupMemberUpdate = 0x10;
+	PPushGroupMsgUpdate = 0x20;
+	PPushGroupManagerMsgUpdate = 0x40;
+	PPushGroupAppUpdate = 0x80;
+}
+
+message MsgPush {
+	required MsgPushType pushtype = 1;
+	required uint64 revision = 2;
+	optional uint64 gid = 3;
+	optional uint64 parentgid = 4;
+	optional uint64 uid = 5;
+	optional uint64 peeruid = 6;
+}
+
+//######################################
+// 订阅群消息推送：
+//
+// 客户端 -> 服务器
+// T=PGroupMsg|PGroupMsgPushSubReq|Flags1|Flags2|
+// L=...
+// V=GroupMsgPushSubReq
+//
+// 服务器->客户端
+// T=PGroupMsg|PGroupMsgPushSubRes|Flags1|Flags2|
+// L=...
+// V=GroupMsgPushSubRes
+
+message GroupMsgPushSub {
+	required uint64 gid = 1;
+	required uint32 subflags = 2;
+	optional uint32 invalid = 3; //等于1时表示订阅无效
+	optional uint32 persistance = 4; //等于1时表示订阅持久化
+}
+
+message GroupMsgPushSubReq {
+	repeated GroupMsgPushSub sub = 1;
+}
+
+message GroupMsgPushSubRes {
+	required Result result = 1;
+	repeated GroupMsgPushSub sub = 2;
+}
+
+//######################################
+// 群组分组创建：
+//
+// 客户端->服务器
+// T=PGroup|PGroupCategoryCreateReq|Flags1|Flags2|
+// L=...
+// V=GroupCategory
+//
+// 服务器 -> 客户端
+// T=PT_Group|PGroupCategoryCreateRes|Flags1|Flags2|
+// L=...
+// V=GroupCategoryCreateRes
+//
+
+message GroupCategory {
+	required uint32 cid = 1;
+	optional uint32 parent = 2;
+	required string name = 3;
+	optional string desc = 4;
+}
+
+message GroupCategoryCreateRes {
+	required Result result = 1;
+	required GroupCategory category = 2;
+}
+
+
+//######################################
+// 群组分组修改：
+//
+// 客户端->服务器
+// T=PGroup|PGroupCategoryModifyReq|Flags1|Flags2|
+// L=...
+// V=GroupCategory
+//
+// 服务器 -> 客户端
+// T=PGroup|PGroupCategoryModifyRes|Flags1|Flags2|
+// L=...
+// V=GroupCategoryModifyRes
+//
+message GroupCategoryModifyRes {
+	required Result result = 1;
+	required GroupCategory category = 2;
+}
+
+//######################################
+// 群组分组请求：
+//
+// 客户端->服务器
+// T=PGroup|PGroupCategoryListReq|Flags1|Flags2|
+// L=...
+// V=GroupCategoryListReq
+//
+// 服务器 -> 客户端
+// T=PGroup|PGroupCategoryListRes|Flags1|Flags2|
+// L=...
+// V=GroupCategoryListRes
+//
+message GroupCategoryListReq {
+	optional uint32 cid = 1;
+	optional uint32 parent = 2;
+}
+
+message GroupCategoryListRes {
+	repeated GroupCategory categorylist = 1;
+}
+
+//######################################
+// 同步评论消息：
+//
+// 客户端->服务器
+// T=PGroupApp|PGroupAppCommentListReq|Flags1|Flags2|
+// L=...
+// V=GroupAppCommentListReq
+//
+// 服务器 -> 客户端
+// T=PGroupApp|PGroupAppCommentListRes|Flags1|Flags2|
+// L=...
+// V=GroupAppCommentListRes
+//
+
+enum GroupAppType {
+	GroupAppTypeComment = 1;
+	GroupAppTypeConsent = 2;
+	GroupAppTypeDissent = 3;
+	GroupAppTypeDistroy = 4;
+}
+
+enum GroupAppOp {
+	GroupAppOpAdd = 0;
+	GroupAppOpDel = 1;
+}
+
+message GroupApp {
+  required uint64 refmsg = 1;  //引用的消息版本号，发送时必填项
+  required GroupAppType apptype = 2; //应用类型，发送时必填项
+  optional GroupAppOp appop = 3; //操作方式
+  optional string msg = 4; //发送评论时必填项
+  optional uint64 uid = 5; //用户ID
+  optional uint64 revision = 6; //评论版本号
+  optional int64 timestamp = 7; 
+}
+
+message GroupAppReq {
+	required uint64 gid = 1;
+	optional uint64 revision = 2;
+	optional uint32 fetchs = 3; //这个参数如果不为0，从指定版本读取fetchs个结果返回
+	optional uint32 topn = 4; //这个参数如果不为0且fetchs为0，读取topn个最新的结果返回
+}
+
+message GroupAppListReq {
+	repeated GroupAppReq groups = 1;
+}
+message GroupAppList {
+	required uint64 revision = 1; //最新的版本
+	required uint64 gid = 2;
+	repeated GroupApp apps = 3;
+}
+
+message GroupAppListRes {
+	required Result result = 1;
+	repeated GroupAppList applist = 2;
+}
+
+//######################################
+// 发送评论消息：
+//
+// 客户端->服务器
+// T=PGroupApp|PGroupAppSendReq|Flags1|Flags2|
+// L=...
+// V=GroupAppSendReq
+//
+// 服务器 -> 客户端
+// T=PGroupApp|PGroupAppSendRes|Flags1|Flags2|
+// L=...
+// V=Result
+
+message GroupAppSendReq {
+	required uint64 gid = 1;
+	required GroupApp app = 2;
+}
+
+//######################################
+// 获取群消息对应的评论：
+//
+// 客户端->服务器
+// T=PGroupApp|PGroupMsgAppReq|Flags1|Flags2|
+// L=...
+// V=GroupMsgAppReq
+//
+// 服务器 -> 客户端
+// T=PGroupApp|PGroupMsgAppRes|Flags1|Flags2|
+// L=...
+// V=GroupMsgAppRes
+
+message GroupMsgAppReq {
+	required uint64 gid = 1;
+	repeated uint64 refmsgs = 2;
+}
+
+message GroupMsgApp {
+	required uint64 refmsg = 1;
+	optional string app = 2;
+}
+
+message GroupMsgAppRes {
+	required uint64 gid = 1;
+	repeated GroupMsgApp apps = 2;
+}
+
+//######################################
+// 举报违规消息：
+//
+// 客户端->服务器
+// T=PReport|PReportViolatorReq|Flags1|Flags2|
+// L=...
+// V=ReportViolatorReq
+//
+// 服务器 -> 客户端
+// T=PReport|PReportViolatorRes|Flags1|Flags2|
+// L=...
+// V=Result
+//
+
+message ReportViolatorReq {
+	enum ViolatorType {
+		ViolatorTypeUser = 1; //用户
+		ViolatorTypeTopic = 2; //话题
+	}
+	required ViolatorType type = 1;
+	enum ViolatorReason {
+		ViolatorReasonAdvertisement = 1; //垃圾广告
+		ViolatorReasonHarassment = 2; //恶意骚扰
+		ViolatorReasonSex = 3; //政治敏感
+		ViolatorReasonPolitical = 4; //政治敏感
+		ViolatorReasonAttack = 5; //人身攻击
+		ViolatorReasonPseudo = 6; //不实信息
+		ViolatorReasonFakeWinning = 7; //虚假中奖
+		ViolatorReasonOther = 99;
+	}
+	required ViolatorReason reason = 2;
+	optional string remarks = 3;
+	optional uint64 uid = 4;
+	optional uint64 gid = 5;
+}
+
+// Body optional : kind of union structor
+message ProtoBody {
+	optional MsgPush  msgPush = 1;
+	
+	optional UserHeartBeat userHeartBeat = 5;
+	
+    optional Result  result = 10;
+	optional GroupListIncrement groupListIncrement = 12;
+	optional GroupManagerMsg groupManagerMsg = 13;
+	optional GroupMemberIncrement groupMemberIncrement = 14;
+	
+	optional AccountBindReq accountBindReq = 30;
+	optional AccountBindValidReq accountBindValidReq = 32;
+	optional PasswordModifyRes passwordModifyRes = 33;
+	
+    optional KeyExchangeReq keyExchangeReq = 100;
+    optional KeyExchangeRes keyExchangeRes = 101;
+
+    optional UserLoginReq userLoginReq = 200;
+    optional UserLoginRes userLoginRes = 201;
+
+    optional SessionResumeReq sessionResumeReq = 210;
+	optional SessionSuspendReq sessionSuspendReq = 212;
+    
+    optional UptokenReq uptokenReq = 220;
+    optional UptokenRes uptokenRes = 221;
+
+    optional UserActivateReq userActivateReq = 301;
+    optional UserActivateRes userActivateRes = 302;
+	optional UserPasswordModifyReq userPasswordModifyReq = 303;
+
+	optional UserInfo userInfo = 400;
+    optional UserInfoReq userInfoReq = 401;
+	optional UserInfoRes userInfoRes = 402;
+	
+    optional ContactListReq contactListReq = 501;
+    optional ContactListRes contactListRes = 502;
+
+    optional ContactSearchReq contactSearchReq = 601;
+    optional ContactSearchRes contactSearchRes = 602;
+
+	optional UserMsg userMsg = 701;
+    optional UserMsgListReq userMsgListReq = 702;
+    optional UserMsgListRes userMsgListRes = 703;
+
+	optional GroupId groupId = 800;
+	optional GroupIds groupIds = 801;
+	optional GroupInfo groupInfo = 802;
+	optional GroupInfoReq groupInfoReq = 805;
+	optional GroupInfoRes groupInfoRes = 806;
+
+    optional GroupCreateRes groupCreateRes = 810;
+
+    optional GroupApplyReq groupApplyReq = 821;
+    optional GroupApplyRes groupApplyRes = 822;
+
+    optional GroupApplyDisposeReq groupApplyDisposeReq = 831;
+    optional GroupQuitReq groupQuitReq = 832;
+
+    optional GroupSearchReq groupSearchReq = 1201;
+    optional GroupSearchRes groupSearchRes = 1202;
+	optional GroupSearchKeywordsReq groupSearchKeywordsReq = 1203;
+	optional GroupSearchKeywordsRes groupSearchKeywordsRes = 1204;
+
+    optional GroupListReq groupListReq = 1301;
+    optional GroupListRes groupListRes = 1302;
+	optional TopicListReq topicListReq = 1303;
+    optional TopicListRes topicListRes = 1304;
+
+    optional GroupMember groupMember = 1401;
+    optional GroupMemberListReq groupMemberListReq = 1402;
+    optional GroupMemberListRes groupMemberListRes = 1403;
+	optional GroupMemberReq groupMemberReq = 1404;
+    optional GroupMemberRes groupMemberRes = 1405;
+	optional GroupMemberModifyReq groupMemberModifyReq = 1406;
+	
+	optional GroupManagerMsgReq groupManagerMsgReq = 1410;
+	optional GroupManagerMsgRes groupManagerMsgRes = 1411;
+
+	optional GroupMsgSendReq groupMsgSendReq = 1490;
+	optional GroupMsg groupMsg = 1500;
+    optional GroupMsgListReq groupMsgListReq = 1501;
+    optional GroupMsgListRes groupMsgListRes = 1502;
+	
+	optional GroupMsgPushSubReq groupMsgPushSubReq = 1503;
+	optional GroupMsgPushSubRes groupMsgPushSubRes = 1504;
+	
+	optional GroupApp groupApp = 1510;
+	optional GroupAppListReq groupAppListReq = 1511;
+	optional GroupAppListRes groupAppListRes = 1512;
+	optional GroupAppSendReq groupAppSendReq = 1513;
+	optional GroupMsgAppReq groupMsgAppReq = 1514;
+	optional GroupMsgAppRes groupMsgAppRes = 1515;
+	
+	optional GroupCategory groupCategory = 1601;
+	optional GroupCategoryCreateRes groupCategoryCreateRes = 1603;
+	optional GroupCategoryModifyRes groupCategoryModifyRes = 1605;
+	optional GroupCategoryListReq groupCategoryListReq = 1606;
+	optional GroupCategoryListRes groupCategoryListRes = 1607;
+	
+	optional ReportViolatorReq reportViolatorReq = 1701;
+}
+
