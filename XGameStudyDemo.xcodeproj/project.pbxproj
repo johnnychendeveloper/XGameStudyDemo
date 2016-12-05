@@ -8,11 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		93ECAC6E3253BA2283565949 /* libPods-XGameStudyDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FC666E09CE525A0F9E06011 /* libPods-XGameStudyDemo.a */; };
+		AF0A9E441DF17CA1001666E0 /* OtherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0A9E431DF17CA1001666E0 /* OtherViewController.m */; };
+		AF0A9E471DF2A543001666E0 /* NetConnection.mm in Sources */ = {isa = PBXBuildFile; fileRef = AF0A9E461DF2A543001666E0 /* NetConnection.mm */; };
+		AF0A9E4A1DF2A59A001666E0 /* NetDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0A9E491DF2A59A001666E0 /* NetDelegate.m */; };
+		AF0A9E4D1DF2A72C001666E0 /* NetDataChannel.mm in Sources */ = {isa = PBXBuildFile; fileRef = AF0A9E4C1DF2A72C001666E0 /* NetDataChannel.mm */; };
+		AF0A9E511DF3BCD6001666E0 /* RSA_RC4_Helper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AF0A9E501DF3BCD6001666E0 /* RSA_RC4_Helper.cpp */; };
+		AF0A9E541DF3BE3B001666E0 /* DMacro.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0A9E531DF3BE3B001666E0 /* DMacro.m */; };
+		AF0A9E571DF3BFC4001666E0 /* DLn.mm in Sources */ = {isa = PBXBuildFile; fileRef = AF0A9E561DF3BFC4001666E0 /* DLn.mm */; };
+		AF0A9E5B1DF3C0E8001666E0 /* LocalStatics.mm in Sources */ = {isa = PBXBuildFile; fileRef = AF0A9E5A1DF3C0E8001666E0 /* LocalStatics.mm */; };
 		AF0AA48B1DE92D7C00BF37DE /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AF0AA48A1DE92D7C00BF37DE /* libstdc++.tbd */; };
 		AF0AA48D1DE92DD700BF37DE /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AF0AA48C1DE92DD700BF37DE /* libsqlite3.0.tbd */; };
 		AF0AA48F1DE942B600BF37DE /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = AF0AA48E1DE942B600BF37DE /* libxml2.tbd */; };
 		AF0AA4931DE9665900BF37DE /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF0AA4921DE9665900BF37DE /* MessageUI.framework */; };
 		AF0AA4961DE9695E00BF37DE /* libprotobuf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AFF94ECB1DE83886007AD724 /* libprotobuf.a */; };
+		AF0FFFAF1DF4217A009D3135 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FFFA61DF4217A009D3135 /* FMDatabase.m */; };
+		AF0FFFB01DF4217A009D3135 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FFFA81DF4217A009D3135 /* FMDatabaseAdditions.m */; };
+		AF0FFFB11DF4217A009D3135 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FFFAA1DF4217A009D3135 /* FMDatabasePool.m */; };
+		AF0FFFB21DF4217A009D3135 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FFFAC1DF4217A009D3135 /* FMDatabaseQueue.m */; };
+		AF0FFFB31DF4217A009D3135 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FFFAE1DF4217A009D3135 /* FMResultSet.m */; };
+		AF0FFFB61DF422DB009D3135 /* JDb.mm in Sources */ = {isa = PBXBuildFile; fileRef = AF0FFFB51DF422DB009D3135 /* JDb.mm */; };
+		AF0FFFB91DF42301009D3135 /* JDbHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FFFB81DF42301009D3135 /* JDbHelper.m */; };
+		AF0FFFC01DF424F5009D3135 /* MessageDef.mm in Sources */ = {isa = PBXBuildFile; fileRef = AF0FFFBF1DF424F5009D3135 /* MessageDef.mm */; };
+		AF0FFFC31DF4367B009D3135 /* DBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FFFC21DF4367B009D3135 /* DBinding.m */; };
+		AF0FFFCD1DF44286009D3135 /* libdwcloud.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF0FFFCA1DF44204009D3135 /* libdwcloud.a */; };
 		AF8F427D1DED1F0100FC8870 /* MySocketServe.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8F427C1DED1F0100FC8870 /* MySocketServe.m */; };
 		AF9F128E1DD8152C00B6C782 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9F128D1DD8152C00B6C782 /* main.m */; };
 		AF9F12911DD8152C00B6C782 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9F12901DD8152C00B6C782 /* AppDelegate.m */; };
@@ -45,6 +63,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = B11C57F317B1EE8700DE20BA;
 			remoteInfo = protobuf;
+		};
+		AF0FFFC91DF44204009D3135 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF0FFFC41DF44201009D3135 /* dwcloud.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8FD261E219D2710000539160;
+			remoteInfo = dwcloud;
+		};
+		AF0FFFCB1DF44204009D3135 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF0FFFC41DF44201009D3135 /* dwcloud.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8FD261F219D2710000539160;
+			remoteInfo = dwcloudTests;
+		};
+		AF0FFFCE1DF44294009D3135 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF0FFFC41DF44201009D3135 /* dwcloud.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8FD261E119D2710000539160;
+			remoteInfo = dwcloud;
 		};
 		AFCB9D391DE6C24F001E760D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -87,11 +126,47 @@
 		37429A025B53BA73E7725163 /* Pods-XGameStudyDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XGameStudyDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-XGameStudyDemo/Pods-XGameStudyDemo.release.xcconfig"; sourceTree = "<group>"; };
 		4763022C7AB1A0C9C3D5A4EB /* Pods-XGameStudyDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XGameStudyDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-XGameStudyDemo/Pods-XGameStudyDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		8FC666E09CE525A0F9E06011 /* libPods-XGameStudyDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-XGameStudyDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF0A9E421DF17CA1001666E0 /* OtherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherViewController.h; sourceTree = "<group>"; };
+		AF0A9E431DF17CA1001666E0 /* OtherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherViewController.m; sourceTree = "<group>"; };
+		AF0A9E451DF2A543001666E0 /* NetConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetConnection.h; sourceTree = "<group>"; };
+		AF0A9E461DF2A543001666E0 /* NetConnection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NetConnection.mm; sourceTree = "<group>"; };
+		AF0A9E481DF2A59A001666E0 /* NetDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetDelegate.h; sourceTree = "<group>"; };
+		AF0A9E491DF2A59A001666E0 /* NetDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetDelegate.m; sourceTree = "<group>"; };
+		AF0A9E4B1DF2A72C001666E0 /* NetDataChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetDataChannel.h; sourceTree = "<group>"; };
+		AF0A9E4C1DF2A72C001666E0 /* NetDataChannel.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NetDataChannel.mm; sourceTree = "<group>"; };
+		AF0A9E4E1DF3BC37001666E0 /* SecurityCipher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecurityCipher.h; sourceTree = "<group>"; };
+		AF0A9E4F1DF3BCD6001666E0 /* RSA_RC4_Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSA_RC4_Helper.h; sourceTree = "<group>"; };
+		AF0A9E501DF3BCD6001666E0 /* RSA_RC4_Helper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RSA_RC4_Helper.cpp; sourceTree = "<group>"; };
+		AF0A9E521DF3BE3B001666E0 /* DMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMacro.h; sourceTree = "<group>"; };
+		AF0A9E531DF3BE3B001666E0 /* DMacro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMacro.m; sourceTree = "<group>"; };
+		AF0A9E551DF3BFC4001666E0 /* DLn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLn.h; sourceTree = "<group>"; };
+		AF0A9E561DF3BFC4001666E0 /* DLn.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DLn.mm; sourceTree = "<group>"; };
+		AF0A9E591DF3C0E8001666E0 /* LocalStatics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalStatics.h; sourceTree = "<group>"; };
+		AF0A9E5A1DF3C0E8001666E0 /* LocalStatics.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LocalStatics.mm; sourceTree = "<group>"; };
 		AF0AA48A1DE92D7C00BF37DE /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		AF0AA48C1DE92DD700BF37DE /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		AF0AA48E1DE942B600BF37DE /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		AF0AA4901DE942E000BF37DE /* libprotobuf.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libprotobuf.tbd; path = usr/lib/libprotobuf.tbd; sourceTree = SDKROOT; };
 		AF0AA4921DE9665900BF37DE /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		AF0FFFA51DF4217A009D3135 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		AF0FFFA61DF4217A009D3135 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		AF0FFFA71DF4217A009D3135 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		AF0FFFA81DF4217A009D3135 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		AF0FFFA91DF4217A009D3135 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		AF0FFFAA1DF4217A009D3135 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		AF0FFFAB1DF4217A009D3135 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		AF0FFFAC1DF4217A009D3135 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		AF0FFFAD1DF4217A009D3135 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		AF0FFFAE1DF4217A009D3135 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		AF0FFFB41DF422DB009D3135 /* JDb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDb.h; sourceTree = "<group>"; };
+		AF0FFFB51DF422DB009D3135 /* JDb.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JDb.mm; sourceTree = "<group>"; };
+		AF0FFFB71DF42301009D3135 /* JDbHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDbHelper.h; sourceTree = "<group>"; };
+		AF0FFFB81DF42301009D3135 /* JDbHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDbHelper.m; sourceTree = "<group>"; };
+		AF0FFFBE1DF424F5009D3135 /* MessageDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDef.h; sourceTree = "<group>"; };
+		AF0FFFBF1DF424F5009D3135 /* MessageDef.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MessageDef.mm; sourceTree = "<group>"; };
+		AF0FFFC11DF4367B009D3135 /* DBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBinding.h; sourceTree = "<group>"; };
+		AF0FFFC21DF4367B009D3135 /* DBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBinding.m; sourceTree = "<group>"; };
+		AF0FFFC41DF44201009D3135 /* dwcloud.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = dwcloud.xcodeproj; path = dwcloud/dwcloud.xcodeproj; sourceTree = "<group>"; };
 		AF8F427B1DED1F0100FC8870 /* MySocketServe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySocketServe.h; sourceTree = "<group>"; };
 		AF8F427C1DED1F0100FC8870 /* MySocketServe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySocketServe.m; sourceTree = "<group>"; };
 		AF9F12891DD8152C00B6C782 /* XGameStudyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XGameStudyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -216,6 +291,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF0FFFCD1DF44286009D3135 /* libdwcloud.a in Frameworks */,
 				AF0AA4961DE9695E00BF37DE /* libprotobuf.a in Frameworks */,
 				AF0AA4931DE9665900BF37DE /* MessageUI.framework in Frameworks */,
 				AF0AA48F1DE942B600BF37DE /* libxml2.tbd in Frameworks */,
@@ -259,6 +335,61 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AF0A9E581DF3C0C1001666E0 /* DataCenter */ = {
+			isa = PBXGroup;
+			children = (
+				AF0A9E591DF3C0E8001666E0 /* LocalStatics.h */,
+				AF0A9E5A1DF3C0E8001666E0 /* LocalStatics.mm */,
+			);
+			path = DataCenter;
+			sourceTree = "<group>";
+		};
+		AF0A9E5C1DF3C41F001666E0 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				AF0FFFB41DF422DB009D3135 /* JDb.h */,
+				AF0FFFB51DF422DB009D3135 /* JDb.mm */,
+				AF0FFFB71DF42301009D3135 /* JDbHelper.h */,
+				AF0FFFB81DF42301009D3135 /* JDbHelper.m */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		AF0FFFA41DF4217A009D3135 /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				AF0FFFA51DF4217A009D3135 /* FMDatabase.h */,
+				AF0FFFA61DF4217A009D3135 /* FMDatabase.m */,
+				AF0FFFA71DF4217A009D3135 /* FMDatabaseAdditions.h */,
+				AF0FFFA81DF4217A009D3135 /* FMDatabaseAdditions.m */,
+				AF0FFFA91DF4217A009D3135 /* FMDatabasePool.h */,
+				AF0FFFAA1DF4217A009D3135 /* FMDatabasePool.m */,
+				AF0FFFAB1DF4217A009D3135 /* FMDatabaseQueue.h */,
+				AF0FFFAC1DF4217A009D3135 /* FMDatabaseQueue.m */,
+				AF0FFFAD1DF4217A009D3135 /* FMResultSet.h */,
+				AF0FFFAE1DF4217A009D3135 /* FMResultSet.m */,
+			);
+			path = FMDB;
+			sourceTree = "<group>";
+		};
+		AF0FFFBD1DF424C2009D3135 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				AF0FFFBE1DF424F5009D3135 /* MessageDef.h */,
+				AF0FFFBF1DF424F5009D3135 /* MessageDef.mm */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		AF0FFFC51DF44201009D3135 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AF0FFFCA1DF44204009D3135 /* libdwcloud.a */,
+				AF0FFFCC1DF44204009D3135 /* dwcloudTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		AF8F427A1DED1E5800FC8870 /* TestClasses */ = {
 			isa = PBXGroup;
 			children = (
@@ -266,6 +397,8 @@
 				AF9F12931DD8152C00B6C782 /* ViewController.m */,
 				AF8F427B1DED1F0100FC8870 /* MySocketServe.h */,
 				AF8F427C1DED1F0100FC8870 /* MySocketServe.m */,
+				AF0A9E421DF17CA1001666E0 /* OtherViewController.h */,
+				AF0A9E431DF17CA1001666E0 /* OtherViewController.m */,
 			);
 			path = TestClasses;
 			sourceTree = "<group>";
@@ -322,6 +455,12 @@
 				AF9F12AB1DD81BC600B6C782 /* DDef.m */,
 				AF9F12AD1DD82C6900B6C782 /* DThreadBus.h */,
 				AF9F12AE1DD82C6900B6C782 /* DThreadBus.m */,
+				AF0A9E521DF3BE3B001666E0 /* DMacro.h */,
+				AF0A9E531DF3BE3B001666E0 /* DMacro.m */,
+				AF0A9E551DF3BFC4001666E0 /* DLn.h */,
+				AF0A9E561DF3BFC4001666E0 /* DLn.mm */,
+				AF0FFFC11DF4367B009D3135 /* DBinding.h */,
+				AF0FFFC21DF4367B009D3135 /* DBinding.m */,
 			);
 			path = FW;
 			sourceTree = "<group>";
@@ -345,6 +484,9 @@
 				AFCB9C8B1DE5CA26001E760D /* FileUtils.m */,
 				AFCB9C8D1DE5CF0D001E760D /* HashUtils.h */,
 				AFCB9C8E1DE5CF0D001E760D /* HashUtils.m */,
+				AF0A9E4E1DF3BC37001666E0 /* SecurityCipher.h */,
+				AF0A9E4F1DF3BCD6001666E0 /* RSA_RC4_Helper.h */,
+				AF0A9E501DF3BCD6001666E0 /* RSA_RC4_Helper.cpp */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -361,6 +503,7 @@
 		AFCB9CAC1DE5EA00001E760D /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				AF0FFFC41DF44201009D3135 /* dwcloud.xcodeproj */,
 				AFF94ECC1DE8388E007AD724 /* protocols.xcodeproj */,
 				AFF94EC61DE83886007AD724 /* protobuf.xcodeproj */,
 				AFCB9D351DE6C24E001E760D /* GTMLibrary.xcodeproj */,
@@ -500,6 +643,7 @@
 		AFF94EB21DE7F908007AD724 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				AF0FFFA41DF4217A009D3135 /* FMDB */,
 				AFCB9C881DE5C95C001E760D /* Utility */,
 			);
 			path = Common;
@@ -508,6 +652,9 @@
 		AFF94EB31DE82129007AD724 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AF0FFFBD1DF424C2009D3135 /* Message */,
+				AF0A9E5C1DF3C41F001666E0 /* Storage */,
+				AF0A9E581DF3C0C1001666E0 /* DataCenter */,
 				AFF94EB41DE8221C007AD724 /* Net */,
 			);
 			path = Model;
@@ -518,6 +665,12 @@
 			children = (
 				AFF94EB51DE825B2007AD724 /* GagaProtocol.h */,
 				AFF94EB61DE825B9007AD724 /* GagaProtocol.mm */,
+				AF0A9E451DF2A543001666E0 /* NetConnection.h */,
+				AF0A9E461DF2A543001666E0 /* NetConnection.mm */,
+				AF0A9E481DF2A59A001666E0 /* NetDelegate.h */,
+				AF0A9E491DF2A59A001666E0 /* NetDelegate.m */,
+				AF0A9E4B1DF2A72C001666E0 /* NetDataChannel.h */,
+				AF0A9E4C1DF2A72C001666E0 /* NetDataChannel.mm */,
 			);
 			path = Net;
 			sourceTree = "<group>";
@@ -564,6 +717,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AF0FFFCF1DF44294009D3135 /* PBXTargetDependency */,
 				AF0AA4951DE9694C00BF37DE /* PBXTargetDependency */,
 				AFF94ED71DE83DCD007AD724 /* PBXTargetDependency */,
 				AFF94EAE1DE7E217007AD724 /* PBXTargetDependency */,
@@ -602,6 +756,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = AF0FFFC51DF44201009D3135 /* Products */;
+					ProjectRef = AF0FFFC41DF44201009D3135 /* dwcloud.xcodeproj */;
+				},
+				{
 					ProductGroup = AFCB9D361DE6C24E001E760D /* Products */;
 					ProjectRef = AFCB9D351DE6C24E001E760D /* GTMLibrary.xcodeproj */;
 				},
@@ -622,6 +780,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		AF0FFFCA1DF44204009D3135 /* libdwcloud.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libdwcloud.a;
+			remoteRef = AF0FFFC91DF44204009D3135 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AF0FFFCC1DF44204009D3135 /* dwcloudTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = dwcloudTests.xctest;
+			remoteRef = AF0FFFCB1DF44204009D3135 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AFCB9D3A1DE6C24F001E760D /* libGTMLibrary.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -709,16 +881,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF0A9E571DF3BFC4001666E0 /* DLn.mm in Sources */,
 				AF9F12AC1DD81BC600B6C782 /* DDef.m in Sources */,
+				AF0FFFB91DF42301009D3135 /* JDbHelper.m in Sources */,
+				AF0A9E471DF2A543001666E0 /* NetConnection.mm in Sources */,
+				AF0FFFC31DF4367B009D3135 /* DBinding.m in Sources */,
+				AF0FFFAF1DF4217A009D3135 /* FMDatabase.m in Sources */,
 				AF9F12941DD8152C00B6C782 /* ViewController.m in Sources */,
+				AF0FFFB11DF4217A009D3135 /* FMDatabasePool.m in Sources */,
+				AF0FFFB31DF4217A009D3135 /* FMResultSet.m in Sources */,
+				AF0FFFB01DF4217A009D3135 /* FMDatabaseAdditions.m in Sources */,
 				AF9F12A61DD8169B00B6C782 /* DNotification.m in Sources */,
+				AF0A9E4D1DF2A72C001666E0 /* NetDataChannel.mm in Sources */,
+				AF0A9E5B1DF3C0E8001666E0 /* LocalStatics.mm in Sources */,
+				AF0A9E4A1DF2A59A001666E0 /* NetDelegate.m in Sources */,
 				AFCB9C871DE5C694001E760D /* LogExt.m in Sources */,
+				AF0FFFB21DF4217A009D3135 /* FMDatabaseQueue.m in Sources */,
 				AF9F12AF1DD82C6900B6C782 /* DThreadBus.m in Sources */,
+				AF0A9E541DF3BE3B001666E0 /* DMacro.m in Sources */,
+				AF0A9E511DF3BCD6001666E0 /* RSA_RC4_Helper.cpp in Sources */,
 				AF8F427D1DED1F0100FC8870 /* MySocketServe.m in Sources */,
 				AF9F12911DD8152C00B6C782 /* AppDelegate.m in Sources */,
+				AF0FFFC01DF424F5009D3135 /* MessageDef.mm in Sources */,
 				AFCB9C8F1DE5CF0D001E760D /* HashUtils.m in Sources */,
 				AF9F128E1DD8152C00B6C782 /* main.m in Sources */,
+				AF0A9E441DF17CA1001666E0 /* OtherViewController.m in Sources */,
 				AFCB9C8C1DE5CA26001E760D /* FileUtils.m in Sources */,
+				AF0FFFB61DF422DB009D3135 /* JDb.mm in Sources */,
 				AFF94EB71DE825B9007AD724 /* GagaProtocol.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -730,6 +919,11 @@
 			isa = PBXTargetDependency;
 			name = protobuf;
 			targetProxy = AF0AA4941DE9694C00BF37DE /* PBXContainerItemProxy */;
+		};
+		AF0FFFCF1DF44294009D3135 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = dwcloud;
+			targetProxy = AF0FFFCE1DF44294009D3135 /* PBXContainerItemProxy */;
 		};
 		AFF94EAE1DE7E217007AD724 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

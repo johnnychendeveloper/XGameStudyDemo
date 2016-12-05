@@ -7,7 +7,3 @@
 //
 
 #import "NetDelegate.h"
-
-@implementation NetDelegate
-
-@end

@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>JSONModel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,7 +32,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>29C9E22E232BF96741DC8FA4A7282D23</key>
+		<key>09FA060F1A0492FB25232F489AC4E573</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -37,7 +42,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7D31AD592AE5C488BE7A41B37BFDB147</key>
+		<key>6178F2B07642B4F09BC7654EFB8E9ED7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>82339E0C41BDF049517BC8144AAD2A89</key>
 		<dict>
 			<key>primary</key>
 			<true/>

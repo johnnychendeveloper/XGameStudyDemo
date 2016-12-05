@@ -11,6 +11,7 @@
 #import "CalculateTest.h"
 #import "MySocketServe.h"
 #import <Masonry/Masonry.h>
+#import "OtherViewController.h"
 
 @interface ViewController ()<NSStreamDelegate>
 {
@@ -22,6 +23,9 @@
 
 @property(nonatomic,strong) UIButton *connectBtn;
 
+@property(nonatomic,strong) UITableView *tableView;
+
+@property(nonatomic,strong) NSTimer *testTimer;
 
 @end
 
@@ -42,12 +46,30 @@
     self.connectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.connectBtn setTitle:@"connect to server" forState:UIControlStateNormal];
     self.connectBtn.backgroundColor = [UIColor grayColor];
-    //[self.view addSubview:self.connectBtn];
-    /*[self.connectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.view addSubview:self.connectBtn];
+    [self.connectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.centerY.mas_equalTo(self.view.mas_centerY);
-    }];*/
+    }];
     [self.connectBtn addTarget:self action:@selector(connectToServer:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.tableView = [[UITableView alloc] init];
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(self.view.bounds.size.width, 200));
+        make.bottom.mas_equalTo(self.view.mas_bottom);
+    }];
+    
+    //test timer
+    //NSTimer *testTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeoutfire) userInfo:nil repeats:YES];
+    
+    /*self.testTimer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timeoutfire) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.testTimer forMode:NSRunLoopCommonModes];*/
+    /*dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSTimer *testTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeoutfire) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] run];
+    });*/
+    
     
     //建立连接
     //[self setupConnection];
@@ -57,11 +79,27 @@
     
 }
 
+- (void)dealloc
+{
+    [self.testTimer invalidate];
+    NSLog(@"viewcontroller dealloc...");
+}
+
+- (void)timeoutfire
+{
+    static int count = 0;
+    count++;
+    NSLog(@"time out fire:%d",count);
+}
+
 - (void)connectToServer:(id)sender
 {
-    GTMLoggerDebug(@"try to connect to server...");
+    /*GTMLoggerDebug(@"try to connect to server...");
     NSError *error;
-    [[MySocketServe shareSocket] connected:@"127.0.0.1" onPort:1235 error:error];
+    [[MySocketServe shareSocket] connected:@"127.0.0.1" onPort:1235 error:error];*/
+    
+    OtherViewController *otherVC = [[OtherViewController alloc] init];
+    [self.navigationController pushViewController:otherVC animated:YES];
 }
 
 - (void)setupConnection

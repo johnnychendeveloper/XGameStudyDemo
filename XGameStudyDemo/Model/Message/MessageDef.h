@@ -7,6 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <JSONModel.h>
+
+@interface JSonOptional : JSONModel
+@end
 
 @interface MessageDef : NSObject
 

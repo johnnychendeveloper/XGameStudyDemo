@@ -9,7 +9,11 @@ target ‘XGameStudyDemo’ do
    # Pods for XGameStudyDemo
         
         pod ‘ZipArchive’, ‘~> 1.4.0’
+        
         pod 'CocoaAsyncSocket', '~> 7.5.1'
+        
         pod 'Masonry', '~> 1.0.2'
+        
+        pod 'JSONModel', '~> 1.0.1'
 end 
         

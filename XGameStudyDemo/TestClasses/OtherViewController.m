@@ -9,7 +9,8 @@
 #import "OtherViewController.h"
 
 @interface OtherViewController ()
-
+@property(nonatomic,strong) NSTimer *testTimer;
+@property(nonatomic,strong) UIButton *testButton;
 @end
 
 @implementation OtherViewController
@@ -17,6 +18,42 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    /*self.testTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeoutfire) userInfo:nil repeats:YES];*/
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        self.testTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeoutfire) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] run];
+    });
+    
+    self.testButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.testButton.frame = CGRectMake(100, 100, 100, 20);
+    [self.view addSubview:self.testButton];
+    [self.testButton addTarget:self action:@selector(testButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.testButton setBackgroundColor:[UIColor grayColor]];
+}
+
+- (void) testButtonClicked:(id)sender
+{
+    NSLog(@"button clicked...");
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.testTimer invalidate];
+}
+
+- (void)timeoutfire
+{
+    static int counter = 0;
+    counter++;
+    NSLog(@"time out: %d",counter);
+    [self.testButton setTitle:[NSString stringWithFormat:@"%d",counter] forState:UIControlStateNormal];
+}
+
+- (void)dealloc
+{
+    NSLog(@"dealloc...");
 }
 
 - (void)didReceiveMemoryWarning {
