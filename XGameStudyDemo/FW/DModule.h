@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DModule : NSObject
+@class DData;
 
+@interface DModule : NSObject
+@property DData* data;
 @end

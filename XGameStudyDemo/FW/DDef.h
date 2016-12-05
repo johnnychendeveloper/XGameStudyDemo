@@ -24,4 +24,26 @@ typedef enum
 }DENotification;
 
 
+#undef Def_Module
+#undef Def_Notification
+#undef Def_NotificationEx
+#undef Def_Const
+#undef Def_ConstWithKey
+#undef Def_ConstValue
+#define Def_Module(m) KM_##m,
+#define Def_Notification(e)
+#define Def_NotificationEx(e, thread)
+#define Def_Const(c)
+#define Def_ConstWithKey(c, k)
+#define Def_ConstValue(c, v)
+
+// Module Enum
+/********************* Module Enum ************************/
+typedef enum
+{
+#include "DDef.inl.h"
+    KM_Max,
+}DEModule;
+
+
 #endif

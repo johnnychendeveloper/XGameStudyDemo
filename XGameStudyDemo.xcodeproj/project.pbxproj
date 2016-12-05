@@ -32,6 +32,11 @@
 		AF0FFFC31DF4367B009D3135 /* DBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = AF0FFFC21DF4367B009D3135 /* DBinding.m */; };
 		AF0FFFCD1DF44286009D3135 /* libdwcloud.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AF0FFFCA1DF44204009D3135 /* libdwcloud.a */; };
 		AF8F427D1DED1F0100FC8870 /* MySocketServe.m in Sources */ = {isa = PBXBuildFile; fileRef = AF8F427C1DED1F0100FC8870 /* MySocketServe.m */; };
+		AF9705B21DF511F70068C949 /* DData.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9705B11DF511F70068C949 /* DData.m */; };
+		AF9705B61DF513BD0068C949 /* ConstCache.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9705B51DF513BD0068C949 /* ConstCache.m */; };
+		AF9705B91DF541950068C949 /* DModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9705B81DF541950068C949 /* DModule.m */; };
+		AF9705BC1DF5452E0068C949 /* DProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9705BB1DF5452E0068C949 /* DProtocol.m */; };
+		AF9705BF1DF547CE0068C949 /* DModuleCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9705BE1DF547CE0068C949 /* DModuleCenter.m */; };
 		AF9F128E1DD8152C00B6C782 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9F128D1DD8152C00B6C782 /* main.m */; };
 		AF9F12911DD8152C00B6C782 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9F12901DD8152C00B6C782 /* AppDelegate.m */; };
 		AF9F12941DD8152C00B6C782 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF9F12931DD8152C00B6C782 /* ViewController.m */; };
@@ -169,6 +174,16 @@
 		AF0FFFC41DF44201009D3135 /* dwcloud.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = dwcloud.xcodeproj; path = dwcloud/dwcloud.xcodeproj; sourceTree = "<group>"; };
 		AF8F427B1DED1F0100FC8870 /* MySocketServe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySocketServe.h; sourceTree = "<group>"; };
 		AF8F427C1DED1F0100FC8870 /* MySocketServe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySocketServe.m; sourceTree = "<group>"; };
+		AF9705B01DF511F70068C949 /* DData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DData.h; sourceTree = "<group>"; };
+		AF9705B11DF511F70068C949 /* DData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DData.m; sourceTree = "<group>"; };
+		AF9705B41DF513BD0068C949 /* ConstCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConstCache.h; sourceTree = "<group>"; };
+		AF9705B51DF513BD0068C949 /* ConstCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConstCache.m; sourceTree = "<group>"; };
+		AF9705B71DF541950068C949 /* DModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DModule.h; sourceTree = "<group>"; };
+		AF9705B81DF541950068C949 /* DModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DModule.m; sourceTree = "<group>"; };
+		AF9705BA1DF5452E0068C949 /* DProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DProtocol.h; sourceTree = "<group>"; };
+		AF9705BB1DF5452E0068C949 /* DProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DProtocol.m; sourceTree = "<group>"; };
+		AF9705BD1DF547CE0068C949 /* DModuleCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DModuleCenter.h; sourceTree = "<group>"; };
+		AF9705BE1DF547CE0068C949 /* DModuleCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DModuleCenter.m; sourceTree = "<group>"; };
 		AF9F12891DD8152C00B6C782 /* XGameStudyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XGameStudyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF9F128D1DD8152C00B6C782 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = App/main.m; sourceTree = "<group>"; };
 		AF9F128F1DD8152C00B6C782 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = App/AppDelegate.h; sourceTree = "<group>"; };
@@ -461,6 +476,14 @@
 				AF0A9E561DF3BFC4001666E0 /* DLn.mm */,
 				AF0FFFC11DF4367B009D3135 /* DBinding.h */,
 				AF0FFFC21DF4367B009D3135 /* DBinding.m */,
+				AF9705B01DF511F70068C949 /* DData.h */,
+				AF9705B11DF511F70068C949 /* DData.m */,
+				AF9705B71DF541950068C949 /* DModule.h */,
+				AF9705B81DF541950068C949 /* DModule.m */,
+				AF9705BA1DF5452E0068C949 /* DProtocol.h */,
+				AF9705BB1DF5452E0068C949 /* DProtocol.m */,
+				AF9705BD1DF547CE0068C949 /* DModuleCenter.h */,
+				AF9705BE1DF547CE0068C949 /* DModuleCenter.m */,
 			);
 			path = FW;
 			sourceTree = "<group>";
@@ -487,6 +510,8 @@
 				AF0A9E4E1DF3BC37001666E0 /* SecurityCipher.h */,
 				AF0A9E4F1DF3BCD6001666E0 /* RSA_RC4_Helper.h */,
 				AF0A9E501DF3BCD6001666E0 /* RSA_RC4_Helper.cpp */,
+				AF9705B41DF513BD0068C949 /* ConstCache.h */,
+				AF9705B51DF513BD0068C949 /* ConstCache.m */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -884,6 +909,7 @@
 				AF0A9E571DF3BFC4001666E0 /* DLn.mm in Sources */,
 				AF9F12AC1DD81BC600B6C782 /* DDef.m in Sources */,
 				AF0FFFB91DF42301009D3135 /* JDbHelper.m in Sources */,
+				AF9705B21DF511F70068C949 /* DData.m in Sources */,
 				AF0A9E471DF2A543001666E0 /* NetConnection.mm in Sources */,
 				AF0FFFC31DF4367B009D3135 /* DBinding.m in Sources */,
 				AF0FFFAF1DF4217A009D3135 /* FMDatabase.m in Sources */,
@@ -896,6 +922,8 @@
 				AF0A9E5B1DF3C0E8001666E0 /* LocalStatics.mm in Sources */,
 				AF0A9E4A1DF2A59A001666E0 /* NetDelegate.m in Sources */,
 				AFCB9C871DE5C694001E760D /* LogExt.m in Sources */,
+				AF9705B61DF513BD0068C949 /* ConstCache.m in Sources */,
+				AF9705BF1DF547CE0068C949 /* DModuleCenter.m in Sources */,
 				AF0FFFB21DF4217A009D3135 /* FMDatabaseQueue.m in Sources */,
 				AF9F12AF1DD82C6900B6C782 /* DThreadBus.m in Sources */,
 				AF0A9E541DF3BE3B001666E0 /* DMacro.m in Sources */,
@@ -906,6 +934,8 @@
 				AFCB9C8F1DE5CF0D001E760D /* HashUtils.m in Sources */,
 				AF9F128E1DD8152C00B6C782 /* main.m in Sources */,
 				AF0A9E441DF17CA1001666E0 /* OtherViewController.m in Sources */,
+				AF9705B91DF541950068C949 /* DModule.m in Sources */,
+				AF9705BC1DF5452E0068C949 /* DProtocol.m in Sources */,
 				AFCB9C8C1DE5CA26001E760D /* FileUtils.m in Sources */,
 				AF0FFFB61DF422DB009D3135 /* JDb.mm in Sources */,
 				AFF94EB71DE825B9007AD724 /* GagaProtocol.mm in Sources */,

@@ -11,3 +11,13 @@
 
 Def_Notification(TestNotification)
 Def_NotificationEx(TestNotificationThread, DNotifyThreadBackground)
+
+
+
+
+
+
+// Def module
+
+// <AppProtocol>
+Def_Module(App)

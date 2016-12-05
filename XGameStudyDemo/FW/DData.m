@@ -8,6 +8,31 @@
 
 #import "DData.h"
 
-@implementation DData
+@implementation CachedAudioInfo
+@end
 
+static ConstCache* _allCache[__CCacheIdx(Max)];
+
+@implementation DDataCache
+
++ (void)setup
+{
+    _allCache[__CCacheIdx(CachedAudioInfo)] = [ConstCache constCacheWithName:@"AudioInfo" andCCNewObject:^id(id key) {
+        CachedAudioInfo* info = [[CachedAudioInfo alloc] init];
+        info.hashs = key;
+        return info;
+    }];
+}
+
++ (ConstCache*)cache:(int)idx
+{
+    return _allCache[idx];
+}
+
+@end
+
+@implementation DData
+@end
+
+@implementation DAppData
 @end

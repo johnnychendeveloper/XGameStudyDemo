@@ -7,7 +7,13 @@
 //
 
 #import "DModule.h"
+#import "DNotification.h"
 
 @implementation DModule
+
+- (void)dealloc
+{
+    [DNotification removeObserver:self];
+}
 
 @end

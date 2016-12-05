@@ -7,6 +7,7 @@
 //
 
 #import "DProtocol.h"
+#import "GagaProtocol.h"
 
 @implementation DProtocol
 
